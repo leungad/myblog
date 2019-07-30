@@ -1,0 +1,19 @@
+
+{% extends "blog/base.html" %}
+
+{% block content %}
+    <br><br><br><br><br>
+    <article class="media content-section">
+      <div class="media-body">
+        <div class="article-metadata">
+          <a class="mr-2" href="#">{{ object.author }}</a>
+          <small class="text-muted">{{ object.date_posted|date:"F n, Y" }}</small>
+        </div>
+        <h2 class="'article-title">{{ object.title }}</h2>
+        <p class="article-content">{{ object.content }}</p>
+      </div>
+    </article>
+
+    <a class="btn btn-outline-info mb-4" href="{% url 'blog-home' %}">Return Home</a>
+{% endblock content %}
+

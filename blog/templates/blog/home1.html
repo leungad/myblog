@@ -1,0 +1,68 @@
+
+
+{% extends "blog/base.html" %}
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+
+{% block content %}
+
+    <style>
+        body {
+            font-family: "Roboto", sans-serif;
+            font-size: 18px;
+            background-color: #fdfdfd;
+        }
+
+        .head_text {
+            color: white;
+        }
+
+        .card {
+            box-shadow: 0 16px 48px #E3E7EB;
+        }
+    </style>
+
+    <br><br>
+    {% for post in posts %}
+{#        <article class="media content-section">#}
+{#          <div class="media-body">#}
+{#            <div class="article-metadata">#}
+{#              <a class="mr-2" href="#">{{ post.author }}</a>#}
+{#              <small class="text-muted">{{ post.date_posted|date:"F n, Y" }}</small>#}
+{#            </div>#}
+{#            <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>#}
+{#            <p class="article-content">{{ post.content }}</p>#}
+{#          </div>#}
+{#        </article>#}
+        <div class="card mt-5" style="width: 40rem;">
+          <div class="card-body">
+            <h5 class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</h5>
+            <h6 class="card-author mb-2 text-muted">{{ post.author }}</h6>
+            <p class="article-content">{{ post.content }}</p>
+            <a href="{% url 'post-detail' post.id %}" class="card-link">Read more..</a>
+          </div>
+        </div>
+    {% endfor %}
+    <br><br>
+    {% if is_paginated %}
+
+      {% if page_obj.has_previous %}
+        <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+          <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+      {% endif %}
+
+    {% endif %}
+
+{% endblock content %}
